@@ -17,6 +17,7 @@ func TestRegistry_ContainsAllExpectedTools(t *testing.T) {
 		required []string
 	}{
 		{"ping", nil},
+		{"confluence.publish-obsidian-file", []string{"file_path"}},
 	}
 
 	for _, c := range cases {
@@ -56,6 +57,7 @@ func TestUsageLine_ListsFlatToolsNamespacesAndMCP(t *testing.T) {
 
 	for _, want := range []string{
 		"ping",
+		"confluence <publish-obsidian-file>",
 		"mcp",
 	} {
 		if !strings.Contains(line, want) {
