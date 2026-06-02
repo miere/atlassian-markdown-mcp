@@ -28,6 +28,15 @@ type Page struct {
 	Links struct {
 		WebUI string `json:"webui"`
 	} `json:"_links"`
+	// Body is populated when the page was fetched with
+	// body-format=atlas_doc_format. Value is the stringified ADF JSON, ready
+	// to be unmarshalled into a markdown.Document.
+	Body struct {
+		AtlasDocFormat struct {
+			Representation string `json:"representation"`
+			Value          string `json:"value"`
+		} `json:"atlas_doc_format"`
+	} `json:"body,omitempty"`
 }
 
 // WebURL returns the absolute URL to the page in the Confluence UI.

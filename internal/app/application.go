@@ -13,6 +13,7 @@ import (
 	"github.com/miere/atlassian-markdown-mcp/internal/frontends/cli"
 	"github.com/miere/atlassian-markdown-mcp/internal/frontends/mcp"
 	"github.com/miere/atlassian-markdown-mcp/internal/tools"
+	"github.com/miere/atlassian-markdown-mcp/internal/tools/confluence/downloadpage"
 	"github.com/miere/atlassian-markdown-mcp/internal/tools/confluence/publishobsidianfile"
 	"github.com/miere/atlassian-markdown-mcp/internal/tools/ping"
 )
@@ -41,6 +42,7 @@ func New(mode Mode, args []string) *Application {
 	reg := tools.NewRegistry()
 	reg.Register(ping.New())
 	reg.Register(publishobsidianfile.New())
+	reg.Register(downloadpage.New())
 	return &Application{mode: mode, args: args, registry: reg}
 }
 

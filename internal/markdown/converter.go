@@ -19,6 +19,20 @@ type Document = mdadf.Document
 // Node is an ADF node (block or inline).
 type Node = mdadf.Node
 
+// Mark is an ADF mark (bold, italic, link, ...). Aliased here so the ADF →
+// markdown renderer in this package can reference it without importing
+// mdadf directly.
+type Mark = mdadf.Mark
+
+// Attribute payload types re-exported for the ADF → markdown renderer.
+type (
+	HeadingAttrs     = mdadf.HeadingAttrs
+	CodeBlockAttrs   = mdadf.CodeBlockAttrs
+	LinkAttrs        = mdadf.LinkAttrs
+	OrderedListAttrs = mdadf.OrderedListAttrs
+	TaskItemAttrs    = mdadf.TaskItemAttrs
+)
+
 // Converter turns a UTF-8 markdown body into an ADF document.
 type Converter interface {
 	Convert(body []byte) (*Document, error)
