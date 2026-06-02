@@ -128,9 +128,15 @@ Rules:
 Tools that need credentials follow an env-first lookup:
 
 1. Read from `os.Getenv`.
-2. If unset, fall back to a per-user dotfile (parsed as `KEY=VALUE` lines).
-3. If still unset, return a typed error from the tool's `Invoke` so the
-   frontend can surface it.
+2. If unset, fall back to a per-user dotfile at
+   `$XDG_CONFIG_HOME/atlassian-mcp/config` (or
+   `~/.config/atlassian-mcp/config` when `XDG_CONFIG_HOME` is unset), parsed
+   as `KEY=VALUE` lines. Blank lines and `#` comments are ignored; no
+   quoting or interpolation is performed, and a missing file is not an
+   error. The fallback is per-key, so env can set some vars while the
+   dotfile supplies the rest.
+3. If still unset, return a typed error (`*atlassian.ErrMissingEnv`) from
+   the tool's `Invoke` so the frontend can surface it.
 
 Clients backed by external SDKs MUST be constructed lazily on first
 invocation — no tool may fail registry boot due to missing credentials.
@@ -154,3 +160,16 @@ where Atlassian credentials are not configured.
 ## 7. Change log
 
 - **0.0.0** — Initial Go MCP + CLI structure with the `ping` tool.
+- **0.1.0** — Added `confluence.publish-obsidian-file` together with the
+  supporting `internal/atlassian` (Confluence v2 REST client + lazy env
+  config), `internal/markdown` (markdown→ADF wrapper + property table
+  helper), and `internal/obsidian` (frontmatter parse + in-place key
+  update) domain packages.
+- **0.1.1** — Implemented the per-user dotfile fallback for credential
+  lookup at `$XDG_CONFIG_HOME/atlassian-mcp/config`
+  (default `~/.config/atlassian-mcp/config`). Env still wins per key.
+- **0.1.2** — Relaxed `confluence.publish-obsidian-file` frontmatter
+  requirements: `confluence_space` and `confluence_title` are required
+  only when `confluence_page_id` is absent. Once a page ID is bound, the
+  tool updates by ID and preserves the live Confluence title, ignoring
+  any local `confluence_title` value.
