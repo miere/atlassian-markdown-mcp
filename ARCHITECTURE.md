@@ -173,3 +173,12 @@ where Atlassian credentials are not configured.
   only when `confluence_page_id` is absent. Once a page ID is bound, the
   tool updates by ID and preserves the live Confluence title, ignoring
   any local `confluence_title` value.
+- **0.2.0** — Added `confluence.download-page`: fetches a Confluence page
+  by numeric ID or full page URL, converts the ADF body to markdown via
+  the new ADF→markdown renderer in `internal/markdown` (parity with the
+  publish path plus panels, expand, taskList, mention, emoji, status),
+  and writes an Obsidian-friendly markdown file. The property table that
+  the publish tool emits is detected and lifted back into YAML
+  frontmatter so a download → publish round-trip preserves
+  publish-controlled metadata. The `atlassian.Page` struct now binds the
+  `body.atlas_doc_format` field returned by `GetPage`.
