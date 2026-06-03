@@ -6,12 +6,18 @@
 // Output convention: a tool's result is JSON-marshalled and wrapped in a
 // single TextContent block. A plain string result is passed through as-is so
 // trivial tools (e.g. ping) don't need a struct.
+//
+// Wire-name convention: MCP clients commonly treat tool names as identifiers
+// and reject dashes, so this frontend exposes each tool's registry name with
+// `-` replaced by `_` (e.g. registry `jira.get-ticket` → wire `jira.get_ticket`).
+// The CLI frontend keeps the dashed form.
 package mcp
 
 import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/google/jsonschema-go/jsonschema"
 	mcpsdk "github.com/modelcontextprotocol/go-sdk/mcp"
@@ -81,10 +87,18 @@ func registerTool(s *mcpsdk.Server, t tools.Tool) {
 		}, nil
 	}
 	s.AddTool(&mcpsdk.Tool{
-		Name:        t.Name(),
+		Name:        wireName(t.Name()),
 		Description: t.Description(),
 		InputSchema: schema,
 	}, handler)
+}
+
+// wireName converts a registry tool name (which may contain dashes) into the
+// MCP wire name by replacing `-` with `_`. MCP clients often treat tool names
+// as identifiers in generated code and reject dashes; the CLI form keeps the
+// dashed name unchanged.
+func wireName(name string) string {
+	return strings.ReplaceAll(name, "-", "_")
 }
 
 // emptyObjectSchema returns the canonical {"type":"object"} schema the SDK

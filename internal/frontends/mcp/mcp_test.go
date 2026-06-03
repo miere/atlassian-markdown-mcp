@@ -109,8 +109,9 @@ func TestServer_StructResult_JSONMarshalledIntoTextContent(t *testing.T) {
 	reg.Register(tool)
 	session := newConnectedClient(t, New(reg))
 
+	// Wire name uses underscores even though the registry name uses dashes.
 	res, err := session.CallTool(context.Background(), &mcpsdk.CallToolParams{
-		Name:      "jira.fetch-ticket",
+		Name:      "jira.fetch_ticket",
 		Arguments: map[string]any{"ticket": "JIRA-1"},
 	})
 	if err != nil {
@@ -149,8 +150,8 @@ func TestServer_ToolWithSchema_ListsSchema(t *testing.T) {
 	if err != nil {
 		t.Fatalf("ListTools: %v", err)
 	}
-	if len(res.Tools) != 1 || res.Tools[0].Name != "jira.fetch-ticket" {
-		t.Fatalf("ListTools returned %+v, want one jira.fetch-ticket tool", res.Tools)
+	if len(res.Tools) != 1 || res.Tools[0].Name != "jira.fetch_ticket" {
+		t.Fatalf("ListTools returned %+v, want one jira.fetch_ticket tool", res.Tools)
 	}
 	raw, err := json.Marshal(res.Tools[0].InputSchema)
 	if err != nil {

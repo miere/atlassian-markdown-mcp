@@ -90,6 +90,12 @@ and only there; frontends iterate it but do not mutate it.
 - Every registered tool is exposed; the tool's `InputSchema()` is published
   verbatim to clients (an empty `{"type":"object"}` schema is substituted
   when the tool returns `nil`).
+- **Wire-name convention**: the MCP frontend exposes each tool's registry
+  name with `-` replaced by `_` (e.g. registry `jira.get-ticket` → wire
+  `jira.get_ticket`). MCP clients commonly treat tool names as identifiers
+  in generated code and reject dashes; the CLI frontend keeps the dashed
+  form. The transformation lives in `mcp.wireName` and is the only place
+  the two frontends diverge on tool naming.
 - **Structured-JSON output convention**: tool results are JSON-marshalled
   and wrapped in a single `TextContent` block. A plain string result is
   passed through as-is so trivial tools (e.g. `ping`) stay uncluttered.
@@ -216,3 +222,10 @@ in the vault path — no `$VAR` or `~user` interpolation.
   `internal/atlassian` to a new `internal/userconfig` package so the
   vault resolver in `internal/obsidian` can share the same source of
   truth without a cyclic dependency.
+- **0.5.0** — MCP frontend now exposes tool names with `-` replaced by
+  `_` (e.g. `jira.get-ticket` → wire `jira.get_ticket`,
+  `confluence.publish-obsidian-file` → wire
+  `confluence.publish_obsidian_file`). MCP clients that bind tool names
+  as identifiers no longer choke on the dashed form. The registry name
+  and CLI subcommand spelling are unchanged; the transformation is
+  one-way and lives entirely inside `internal/frontends/mcp`.

@@ -99,6 +99,17 @@ $ obsidian-workspace-mcp mcp
 that are plain strings (e.g. `ping → "pong"`) are passed through verbatim,
 everything else is JSON-marshalled into a single `TextContent` block.
 
+Tool names on the MCP wire use `_` instead of `-` (the CLI form is
+unchanged). For example:
+
+| CLI subcommand                              | MCP wire name                         |
+| ------------------------------------------- | ------------------------------------- |
+| `confluence publish-obsidian-file`          | `confluence.publish_obsidian_file`    |
+| `confluence download-page`                  | `confluence.download_page`            |
+| `jira get-ticket`                           | `jira.get_ticket`                     |
+| `jira update-ticket`                        | `jira.update_ticket`                  |
+| `ping`                                      | `ping`                                |
+
 Invalid commands exit non-zero and write a short diagnostic to stderr.
 
 ## Repository layout
