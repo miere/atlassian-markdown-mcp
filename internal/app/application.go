@@ -15,6 +15,8 @@ import (
 	"github.com/miere/atlassian-markdown-mcp/internal/tools"
 	"github.com/miere/atlassian-markdown-mcp/internal/tools/confluence/downloadpage"
 	"github.com/miere/atlassian-markdown-mcp/internal/tools/confluence/publishobsidianfile"
+	"github.com/miere/atlassian-markdown-mcp/internal/tools/jira/getticket"
+	"github.com/miere/atlassian-markdown-mcp/internal/tools/jira/updateticket"
 	"github.com/miere/atlassian-markdown-mcp/internal/tools/ping"
 )
 
@@ -43,6 +45,8 @@ func New(mode Mode, args []string) *Application {
 	reg.Register(ping.New())
 	reg.Register(publishobsidianfile.New())
 	reg.Register(downloadpage.New())
+	reg.Register(getticket.New())
+	reg.Register(updateticket.New())
 	return &Application{mode: mode, args: args, registry: reg}
 }
 

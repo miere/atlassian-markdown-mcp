@@ -182,3 +182,17 @@ where Atlassian credentials are not configured.
   frontmatter so a download → publish round-trip preserves
   publish-controlled metadata. The `atlassian.Page` struct now binds the
   `body.atlas_doc_format` field returned by `GetPage`.
+- **0.3.0** — Added `jira.get-ticket` and `jira.update-ticket`. New
+  `internal/atlassian.IssueClient` seam (sibling to the Confluence-only
+  `Client`) covers issue read/update (summary, description, issue
+  type), transition discovery + execution, and a best-effort DevTools
+  summary for PR/branch metadata. Both tools reuse the existing
+  `internal/markdown` ADF↔markdown converters; the fetch tool writes
+  `<KEY> - <title>.md` with a fixed-order frontmatter block
+  (`jira_ticket_key`, `jira_ticket_title`, `jira_ticket_status`,
+  `jira_ticket_type`, optional `jira_parent_ticket_key`, plus
+  `jira_created`/`jira_updated`/`jira_labels`/`jira_pull_requests`/
+  `jira_branches`), and the update tool fails fast on missing keys,
+  unreachable statuses, malformed markdown, or any attempt to
+  re-parent a subtask — the live ticket is touched only when every
+  validation passes.
