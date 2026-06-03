@@ -215,4 +215,3 @@ func escapePipe(s string) string {
 	s = strings.ReplaceAll(s, "\n", "<br>")
 	return s
 }
-

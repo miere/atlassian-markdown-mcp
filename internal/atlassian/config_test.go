@@ -4,7 +4,6 @@ import (
 	"errors"
 	"os"
 	"path/filepath"
-	"strings"
 	"testing"
 )
 
@@ -100,22 +99,6 @@ func TestLoadConfig_MissingAll(t *testing.T) {
 	for _, want := range []string{EnvBaseURL, EnvEmail, EnvAPIToken} {
 		if !containsStr(me.Vars, want) {
 			t.Errorf("missing list = %v, want %q present", me.Vars, want)
-		}
-	}
-}
-
-// TestParseDotfile_SkipsBlanksAndComments locks the documented dotfile
-// syntax in isolation from the env lookup.
-func TestParseDotfile_SkipsBlanksAndComments(t *testing.T) {
-	got := parseDotfile(strings.NewReader(
-		"# c\n\nA=1\nB =  two \nnoequals\n=val\nC=a=b\n"))
-	want := map[string]string{"A": "1", "B": "two", "C": "a=b"}
-	if len(got) != len(want) {
-		t.Fatalf("got %v, want %v", got, want)
-	}
-	for k, v := range want {
-		if got[k] != v {
-			t.Errorf("got[%q] = %q, want %q", k, got[k], v)
 		}
 	}
 }

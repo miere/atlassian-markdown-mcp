@@ -13,7 +13,7 @@ type frontmatter struct {
 	Title       string
 	Status      string
 	Type        string
-	ParentKey   string   // empty when the ticket has no parent on Jira
+	ParentKey   string // empty when the ticket has no parent on Jira
 	Created     string
 	Updated     string
 	Labels      []string

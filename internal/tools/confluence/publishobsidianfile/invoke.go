@@ -19,6 +19,7 @@ func (t *Tool) Invoke(ctx context.Context, args map[string]any) (any, error) {
 	if !ok || path == "" {
 		return nil, fmt.Errorf("file_path is required and must be a non-empty string")
 	}
+	path = obsidian.ResolvePath(path)
 	file, err := obsidian.Load(path)
 	if err != nil {
 		return nil, err

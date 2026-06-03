@@ -143,6 +143,17 @@ invocation — no tool may fail registry boot due to missing credentials.
 `atlassian-mcp ping` and `atlassian-mcp mcp` keep working in environments
 where Atlassian credentials are not configured.
 
+The same dotfile is also the source for `OBSIDIAN_VAULT_DIR`, the
+optional Obsidian vault root used to resolve relative `file_path` and
+`output_dir` arguments passed to the sync tools. The shared loader
+lives in `internal/userconfig`; `internal/atlassian` and
+`internal/obsidian` both consume it. Path resolution itself lives in
+`internal/obsidian` (`ResolvePath`, `ResolveDir`); absolute paths are
+always taken verbatim, and tools fall through to their existing
+fallbacks (process CWD for relative paths, `/tmp/` for empty
+`output_dir`) when the vault is not configured. Only `~/` is expanded
+in the vault path — no `$VAR` or `~user` interpolation.
+
 ## 6. Testing conventions
 
 - Any external SDK is wrapped behind a small interface inside the domain
@@ -196,3 +207,12 @@ where Atlassian credentials are not configured.
   unreachable statuses, malformed markdown, or any attempt to
   re-parent a subtask — the live ticket is touched only when every
   validation passes.
+- **0.4.0** — Added optional `OBSIDIAN_VAULT_DIR` so MCP clients (and
+  anyone whose process CWD is not the vault) can pass vault-relative
+  `file_path` / `output_dir` values to the sync tools. Absolute paths
+  are still taken verbatim; an empty `output_dir` now defaults to the
+  vault root when the variable is set (and to `/tmp/` otherwise, as
+  before). The XDG dotfile loader was extracted from
+  `internal/atlassian` to a new `internal/userconfig` package so the
+  vault resolver in `internal/obsidian` can share the same source of
+  truth without a cyclic dependency.

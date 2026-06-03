@@ -27,8 +27,10 @@ pong
 ### `atlassian-mcp confluence publish-obsidian-file --file-path <path>`
 
 Reads a local Obsidian markdown file and publishes it to a Confluence Cloud
-page, fully rewriting the page body. The source file's YAML frontmatter drives
-the sync:
+page, fully rewriting the page body. `--file-path` follows the path
+resolution rules below — absolute paths are taken verbatim, relative paths
+are resolved against `OBSIDIAN_VAULT_DIR` when set and against the process
+CWD otherwise. The source file's YAML frontmatter drives the sync:
 
 | key                  | role                                                                |
 | -------------------- | ------------------------------------------------------------------- |
@@ -56,6 +58,31 @@ The required keys are:
 - `ATLASSIAN_BASE_URL` — e.g. `https://acme.atlassian.net`
 - `ATLASSIAN_EMAIL` — your Atlassian Cloud account email
 - `ATLASSIAN_API_TOKEN` — an Atlassian API token (not a password)
+
+## Path resolution
+
+All sync tools accept either a `file_path` (the file to publish/update) or
+an `output_dir` (the directory to write a downloaded note into). Both
+follow the same rules:
+
+- An **absolute path** is always used verbatim.
+- A **relative path** is resolved against `OBSIDIAN_VAULT_DIR` when that
+  variable is set; otherwise it falls back to the process's current
+  working directory (today's behaviour).
+- An **omitted or empty `output_dir`** defaults to `OBSIDIAN_VAULT_DIR`
+  when set, and to `/tmp/` otherwise. An omitted `file_path` is still a
+  hard error — there is no implicit file name.
+
+`OBSIDIAN_VAULT_DIR` is read using the same precedence as the Atlassian
+credentials above: the process environment first, then the per-user
+dotfile at `$XDG_CONFIG_HOME/atlassian-mcp/config`. The value supports
+`~/` expansion (so `OBSIDIAN_VAULT_DIR=~/Obsidian/Vault` resolves
+against the current user's home directory); no other shell-style
+expansion is performed.
+
+This setting is mainly useful for MCP clients (Claude Desktop, etc.)
+that launch the binary with a CWD outside the vault — set it once in
+the dotfile and every tool accepts vault-relative paths.
 
 ### `atlassian-mcp mcp`
 

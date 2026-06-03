@@ -103,5 +103,3 @@ func (r Result) String() string {
 	return fmt.Sprintf("downloaded ticket %s [%s]: %s -> %s",
 		r.Key, r.Status, r.Title, r.FilePath)
 }
-
-

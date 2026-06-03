@@ -17,12 +17,12 @@ import (
 // Counters let tests assert that early-abort paths never reach the
 // PUT or POST.
 type fakeIssueClient struct {
-	issue         atlassian.Issue
-	transitions   []atlassian.Transition
-	transErr      error
-	updateErr     error
-	getCalls      int
-	updateCalls   int
+	issue          atlassian.Issue
+	transitions    []atlassian.Transition
+	transErr       error
+	updateErr      error
+	getCalls       int
+	updateCalls    int
 	transListCalls int
 	transRunCalls  int
 	updatedSummary string
@@ -122,7 +122,6 @@ func TestInvoke_HappyPathSameStatusAndType(t *testing.T) {
 		t.Errorf("description does not carry the body text: %s", fc.updatedDesc)
 	}
 }
-
 
 // TestInvoke_StatusChangeRunsTransition resolves a reachable target
 // status and POSTs the transition after the PUT.
@@ -319,4 +318,3 @@ func TestInvoke_PUTBodyShape(t *testing.T) {
 		t.Errorf("ADF doc envelope wrong: %v", doc)
 	}
 }
-

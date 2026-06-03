@@ -11,6 +11,7 @@ import (
 
 	"github.com/miere/atlassian-markdown-mcp/internal/atlassian"
 	"github.com/miere/atlassian-markdown-mcp/internal/markdown"
+	"github.com/miere/atlassian-markdown-mcp/internal/obsidian"
 )
 
 // Invoke resolves the ticket identifier to a Jira issue key, fetches
@@ -22,10 +23,11 @@ func (t *Tool) Invoke(ctx context.Context, args map[string]any) (any, error) {
 	if err != nil {
 		return nil, err
 	}
-	outDir, err := optionalString(args, "output_dir", DefaultOutputDir)
+	rawOutDir, err := optionalString(args, "output_dir", "")
 	if err != nil {
 		return nil, err
 	}
+	outDir := obsidian.ResolveDir(rawOutDir, DefaultOutputDir)
 	if info, err := os.Stat(outDir); err != nil || !info.IsDir() {
 		return nil, fmt.Errorf("output_dir %q must be an existing directory", outDir)
 	}
