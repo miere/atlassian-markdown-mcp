@@ -16,7 +16,7 @@ import (
 // ErrUsage is returned when the user invokes the CLI without arguments or
 // with an unknown command. Callers map it to a non-zero exit and a usage
 // message on stderr.
-var ErrUsage = errors.New("usage: atlassian-mcp <command>")
+var ErrUsage = errors.New("usage: obsidian-workspace-mcp <command>")
 
 // Frontend is the CLI adapter.
 type Frontend struct {
@@ -39,7 +39,7 @@ func (f *Frontend) WithOutput(stdout, stderr io.Writer) *Frontend {
 // Run executes the command described by args. It first tries to resolve
 // args[0] as a flat tool name; if that misses and args[1] is present, it
 // retries with the dotted form "<args[0]>.<args[1]>" — the convention for
-// namespaced subcommands (e.g. `atlassian-mcp jira fetch-ticket` →
+// namespaced subcommands (e.g. `obsidian-workspace-mcp jira fetch-ticket` →
 // "jira.fetch-ticket").
 //
 // Remaining tokens after the resolved name are parsed as --flag VALUE pairs

@@ -13,7 +13,7 @@ func withTempXDG(t *testing.T) string {
 	t.Helper()
 	dir := t.TempDir()
 	t.Setenv("XDG_CONFIG_HOME", dir)
-	return filepath.Join(dir, "atlassian-mcp", "config")
+	return filepath.Join(dir, "obsidian-workspace-mcp", "config")
 }
 
 func writeDotfile(t *testing.T, path, contents string) {
@@ -31,7 +31,7 @@ func TestConfigPath_XDGWins(t *testing.T) {
 	dir := t.TempDir()
 	t.Setenv("XDG_CONFIG_HOME", dir)
 	got := ConfigPath()
-	want := filepath.Join(dir, "atlassian-mcp", "config")
+	want := filepath.Join(dir, "obsidian-workspace-mcp", "config")
 	if got != want {
 		t.Errorf("ConfigPath() = %q, want %q", got, want)
 	}

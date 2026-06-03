@@ -18,13 +18,13 @@ import (
 // should treat that as "no dotfile available" and skip the fallback.
 func ConfigPath() string {
 	if x := os.Getenv("XDG_CONFIG_HOME"); x != "" {
-		return filepath.Join(x, "atlassian-mcp", "config")
+		return filepath.Join(x, "obsidian-workspace-mcp", "config")
 	}
 	home, err := os.UserHomeDir()
 	if err != nil {
 		return ""
 	}
-	return filepath.Join(home, ".config", "atlassian-mcp", "config")
+	return filepath.Join(home, ".config", "obsidian-workspace-mcp", "config")
 }
 
 // LoadDotfile best-effort parses the per-user config. A missing file

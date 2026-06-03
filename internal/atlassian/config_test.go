@@ -17,7 +17,7 @@ func withCleanEnv(t *testing.T) string {
 	t.Setenv(EnvAPIToken, "")
 	dir := t.TempDir()
 	t.Setenv("XDG_CONFIG_HOME", dir)
-	return filepath.Join(dir, "atlassian-mcp", "config")
+	return filepath.Join(dir, "obsidian-workspace-mcp", "config")
 }
 
 func writeDotfile(t *testing.T, path, contents string) {

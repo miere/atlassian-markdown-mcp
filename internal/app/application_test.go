@@ -65,7 +65,7 @@ func TestUsageLine_ListsFlatToolsNamespacesAndMCP(t *testing.T) {
 			t.Errorf("UsageLine missing %q in:\n%s", want, line)
 		}
 	}
-	if !strings.HasPrefix(line, "usage: atlassian-mcp <command>; commands: ") {
+	if !strings.HasPrefix(line, "usage: obsidian-workspace-mcp <command>; commands: ") {
 		t.Errorf("UsageLine prefix wrong: %q", line)
 	}
 }

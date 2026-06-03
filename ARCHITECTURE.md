@@ -7,12 +7,12 @@ file in the same PR.
 
 ## 1. High-level architecture
 
-The project has a single binary (`cmd/atlassian-mcp`) and two frontends backed
+The project has a single binary (`cmd/obsidian-workspace-mcp`) and two frontends backed
 by a shared tool registry:
 
 ```
                        ┌──────────────────────┐
-                       │ cmd/atlassian-mcp    │
+                       │ cmd/obsidian-workspace-mcp    │
                        └──────────┬───────────┘
                                   │
                        ┌──────────▼───────────┐
@@ -49,7 +49,7 @@ Semantics:
 
 - **`Name`** is the registry key. A `.`-separated name (e.g.
   `jira.fetch-ticket`) declares the tool as belonging to a namespace; the CLI
-  frontend resolves `atlassian-mcp jira fetch-ticket` to the registered name
+  frontend resolves `obsidian-workspace-mcp jira fetch-ticket` to the registered name
   `jira.fetch-ticket`.
 - **`Description`** is a one-line human-readable hint used by MCP clients.
 - **`InputSchema`** returns the JSON Schema that documents and validates the
@@ -69,7 +69,7 @@ and only there; frontends iterate it but do not mutate it.
 ### CLI (`internal/frontends/cli`)
 
 - **stdout** is reserved for tool output. **stderr** is for diagnostics
-  (`atlassian-mcp: <error>`). Exit code is `1` on any tool error or usage
+  (`obsidian-workspace-mcp: <error>`). Exit code is `1` on any tool error or usage
   error.
 - **Nested namespaces** use `.`-separated registry names
   (`<namespace>.<command>`). The CLI first tries a flat lookup of `args[0]`,
@@ -99,7 +99,7 @@ and only there; frontends iterate it but do not mutate it.
 ## 4. Package layout
 
 ```
-cmd/atlassian-mcp/               # main; top-level mode parsing
+cmd/obsidian-workspace-mcp/               # main; top-level mode parsing
 internal/
   app/                           # composition root + Registry wiring
   frontends/
@@ -129,8 +129,8 @@ Tools that need credentials follow an env-first lookup:
 
 1. Read from `os.Getenv`.
 2. If unset, fall back to a per-user dotfile at
-   `$XDG_CONFIG_HOME/atlassian-mcp/config` (or
-   `~/.config/atlassian-mcp/config` when `XDG_CONFIG_HOME` is unset), parsed
+   `$XDG_CONFIG_HOME/obsidian-workspace-mcp/config` (or
+   `~/.config/obsidian-workspace-mcp/config` when `XDG_CONFIG_HOME` is unset), parsed
    as `KEY=VALUE` lines. Blank lines and `#` comments are ignored; no
    quoting or interpolation is performed, and a missing file is not an
    error. The fallback is per-key, so env can set some vars while the
@@ -140,7 +140,7 @@ Tools that need credentials follow an env-first lookup:
 
 Clients backed by external SDKs MUST be constructed lazily on first
 invocation — no tool may fail registry boot due to missing credentials.
-`atlassian-mcp ping` and `atlassian-mcp mcp` keep working in environments
+`obsidian-workspace-mcp ping` and `obsidian-workspace-mcp mcp` keep working in environments
 where Atlassian credentials are not configured.
 
 The same dotfile is also the source for `OBSIDIAN_VAULT_DIR`, the
@@ -177,8 +177,8 @@ in the vault path — no `$VAR` or `~user` interpolation.
   helper), and `internal/obsidian` (frontmatter parse + in-place key
   update) domain packages.
 - **0.1.1** — Implemented the per-user dotfile fallback for credential
-  lookup at `$XDG_CONFIG_HOME/atlassian-mcp/config`
-  (default `~/.config/atlassian-mcp/config`). Env still wins per key.
+  lookup at `$XDG_CONFIG_HOME/obsidian-workspace-mcp/config`
+  (default `~/.config/obsidian-workspace-mcp/config`). Env still wins per key.
 - **0.1.2** — Relaxed `confluence.publish-obsidian-file` frontmatter
   requirements: `confluence_space` and `confluence_title` are required
   only when `confluence_page_id` is absent. Once a page ID is bound, the

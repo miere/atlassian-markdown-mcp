@@ -9,22 +9,22 @@ future Jira or Confluence tool will follow.
 ## Build
 
 ```sh
-go build -o atlassian-mcp ./cmd/atlassian-mcp
+go build -o obsidian-workspace-mcp ./cmd/obsidian-workspace-mcp
 ```
 
 ## Usage
 
-### `atlassian-mcp ping`
+### `obsidian-workspace-mcp ping`
 
 Invokes the `ping` tool through the CLI. Writes exactly `pong` followed by a
 newline to stdout, and nothing to stderr. Exits 0 on success.
 
 ```sh
-$ atlassian-mcp ping
+$ obsidian-workspace-mcp ping
 pong
 ```
 
-### `atlassian-mcp confluence publish-obsidian-file --file-path <path>`
+### `obsidian-workspace-mcp confluence publish-obsidian-file --file-path <path>`
 
 Reads a local Obsidian markdown file and publishes it to a Confluence Cloud
 page, fully rewriting the page body. `--file-path` follows the path
@@ -48,8 +48,8 @@ prepended to the published page body, so the Confluence page always shows the
 note's metadata above its content.
 
 Credentials are resolved per key in this order: the process environment
-first, then a per-user dotfile at `$XDG_CONFIG_HOME/atlassian-mcp/config`
-(default `~/.config/atlassian-mcp/config`) parsed as `KEY=VALUE` lines.
+first, then a per-user dotfile at `$XDG_CONFIG_HOME/obsidian-workspace-mcp/config`
+(default `~/.config/obsidian-workspace-mcp/config`) parsed as `KEY=VALUE` lines.
 The dotfile is the recommended source when launching the binary from an
 MCP client that does not inherit your shell environment.
 
@@ -75,7 +75,7 @@ follow the same rules:
 
 `OBSIDIAN_VAULT_DIR` is read using the same precedence as the Atlassian
 credentials above: the process environment first, then the per-user
-dotfile at `$XDG_CONFIG_HOME/atlassian-mcp/config`. The value supports
+dotfile at `$XDG_CONFIG_HOME/obsidian-workspace-mcp/config`. The value supports
 `~/` expansion (so `OBSIDIAN_VAULT_DIR=~/Obsidian/Vault` resolves
 against the current user's home directory); no other shell-style
 expansion is performed.
@@ -84,14 +84,14 @@ This setting is mainly useful for MCP clients (Claude Desktop, etc.)
 that launch the binary with a CWD outside the vault — set it once in
 the dotfile and every tool accepts vault-relative paths.
 
-### `atlassian-mcp mcp`
+### `obsidian-workspace-mcp mcp`
 
 Starts the MCP server over stdio. This mode is intended for MCP clients, not
 direct human use — stdout is reserved for JSON-RPC MCP protocol messages and
 must not be parsed as plain text. Any diagnostics are written to stderr.
 
 ```sh
-$ atlassian-mcp mcp
+$ obsidian-workspace-mcp mcp
 # server reads JSON-RPC requests from stdin and writes responses to stdout
 ```
 
@@ -105,7 +105,7 @@ Invalid commands exit non-zero and write a short diagnostic to stderr.
 
 ```
 atlassian-markdown-mcp/
-├── cmd/atlassian-mcp/   # entry point
+├── cmd/obsidian-workspace-mcp/   # entry point
 ├── internal/app/        # composition root
 ├── internal/frontends/  # cli + mcp adapters
 └── internal/tools/      # shared tool interface + one package per tool

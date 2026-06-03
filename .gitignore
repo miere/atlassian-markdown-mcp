@@ -8,8 +8,8 @@
 # Test binary, built with `go test -c`
 *.test
 
-# Built binary (output of `go build ./cmd/atlassian-mcp`)
-/atlassian-mcp
+# Built binary (output of `go build ./cmd/obsidian-workspace-mcp`)
+/obsidian-workspace-mcp
 
 # Code coverage profiles and other test artifacts
 *.out

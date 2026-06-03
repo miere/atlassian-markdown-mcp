@@ -30,8 +30,8 @@ type Config struct {
 }
 
 // LoadConfig reads Config from the environment, falling back to a per-user
-// dotfile at $XDG_CONFIG_HOME/atlassian-mcp/config (or
-// ~/.config/atlassian-mcp/config when XDG_CONFIG_HOME is unset) when an env
+// dotfile at $XDG_CONFIG_HOME/obsidian-workspace-mcp/config (or
+// ~/.config/obsidian-workspace-mcp/config when XDG_CONFIG_HOME is unset) when an env
 // var is missing. The dotfile uses `KEY=VALUE` lines; `#` comments and blank
 // lines are ignored. Returns *ErrMissingEnv when any required variable
 // remains unset after both lookups.

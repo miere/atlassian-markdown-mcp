@@ -1,6 +1,6 @@
-// Command atlassian-mcp is the single entry point for the
+// Command obsidian-workspace-mcp is the single entry point for the
 // atlassian-markdown-mcp tool. It can run either as a CLI (e.g.
-// `atlassian-mcp ping`) or as an MCP stdio server (`atlassian-mcp mcp`).
+// `obsidian-workspace-mcp ping`) or as an MCP stdio server (`obsidian-workspace-mcp mcp`).
 // Both modes are backed by the same underlying tool registry.
 package main
 
@@ -14,7 +14,7 @@ import (
 
 func main() {
 	if err := run(os.Args[1:]); err != nil {
-		fmt.Fprintln(os.Stderr, "atlassian-mcp:", err)
+		fmt.Fprintln(os.Stderr, "obsidian-workspace-mcp:", err)
 		os.Exit(1)
 	}
 }

@@ -30,7 +30,7 @@ const (
 	ModeMCP
 )
 
-// Application is the composition root for a single atlassian-mcp invocation.
+// Application is the composition root for a single obsidian-workspace-mcp invocation.
 type Application struct {
 	mode     Mode
 	args     []string
@@ -90,5 +90,5 @@ func (a *Application) UsageLine() string {
 		parts = append(parts, fmt.Sprintf("%s <%s>", ns, strings.Join(subs, "|")))
 	}
 	parts = append(parts, "mcp")
-	return "usage: atlassian-mcp <command>; commands: " + strings.Join(parts, ", ")
+	return "usage: obsidian-workspace-mcp <command>; commands: " + strings.Join(parts, ", ")
 }
